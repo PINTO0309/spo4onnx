@@ -16,3 +16,18 @@ https://github.com/PINTO0309/spo4onnx/releases/download/model/high_frequency_ste
 
 ![image](https://github.com/PINTO0309/spo4onnx/assets/33194443/d50adf77-4859-4c5e-8322-ef6698c1a771)
 
+Verify that the inference works properly.
+```bash
+sit4onnx \
+-if high_frequency_stereo_matching_kitti_iter05_1x3x192x320.onnx \
+-oep tensorrt
+
+INFO: file: high_frequency_stereo_matching_kitti_iter05_1x3x192x320.onnx
+INFO: providers: ['TensorrtExecutionProvider', 'CPUExecutionProvider']
+INFO: input_name.1: left shape: [1, 3, 192, 320] dtype: float32
+INFO: input_name.2: right shape: [1, 3, 192, 320] dtype: float32
+INFO: test_loop_count: 10
+INFO: total elapsed time:  185.7011318206787 ms
+INFO: avg elapsed time per pred:  18.57011318206787 ms
+INFO: output_name.1: output shape: [1, 1, 192, 320] dtype: float32
+```
