@@ -30,4 +30,17 @@ INFO: test_loop_count: 10
 INFO: total elapsed time:  185.7011318206787 ms
 INFO: avg elapsed time per pred:  18.57011318206787 ms
 INFO: output_name.1: output shape: [1, 1, 192, 320] dtype: float32
+
+sit4onnx \
+-if high_frequency_stereo_matching_kitti_iter05_1x3x192x320.onnx \
+-oep cpu
+
+INFO: file: high_frequency_stereo_matching_kitti_iter05_1x3x192x320.onnx
+INFO: providers: ['CPUExecutionProvider']
+INFO: input_name.1: left shape: [1, 3, 192, 320] dtype: float32
+INFO: input_name.2: right shape: [1, 3, 192, 320] dtype: float32
+INFO: test_loop_count: 10
+INFO: total elapsed time:  4090.1401042938232 ms
+INFO: avg elapsed time per pred:  409.0140104293823 ms
+INFO: output_name.1: output shape: [1, 1, 192, 320] dtype: float32
 ```
