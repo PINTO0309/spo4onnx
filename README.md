@@ -169,3 +169,6 @@ partial_optimization(
     onnx_graph: onnx.ModelProto
         Optimized onnx ModelProto
 ```
+
+## 3. Acknowledgments
+1. https://github.com/daquexian/onnx-simplifier
