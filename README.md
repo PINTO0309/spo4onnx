@@ -1,5 +1,5 @@
 # spo4onnx
-Simple tool for partial optimization of ONNX
+Simple tool for partial optimization of ONNX.
 
 Further optimize some models that cannot be optimized with [onnx-optimizer](https://github.com/onnx/optimizer) and [onnxsim](https://github.com/daquexian/onnx-simplifier) by several tens of percent. In particular, models containing `Einsum` and `OneHot`. In other words, the goal is to raise the optimization capacity of [onnxsim](https://github.com/daquexian/onnx-simplifier).
 
