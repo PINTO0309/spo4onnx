@@ -1,6 +1,10 @@
 # spo4onnx
 Simple tool for partial optimization of ONNX
 
+Further optimize some models that cannot be optimized with onnx-optimizer and onnxsim by several tens of percent.
+
+![Kazam_screencast_00060_](https://github.com/PINTO0309/spo4onnx/assets/33194443/2fa84a50-a26c-47c9-99f7-845732adffb8)
+
 1. Temporarily downgrade onnxsim to `0.4.30` to perform my own optimization sequence.
 2. After the optimization process is complete, reinstall the original onnxsim version to restore the environment.
 3. The first version modifies two OPs, `Einsum` and `OneHot`, which hinder optimization and boost the optimization operation by onnxsim to maximum performance.
