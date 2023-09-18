@@ -3,6 +3,10 @@ Simple tool for partial optimization of ONNX.
 
 Further optimize some models that cannot be optimized with [onnx-optimizer](https://github.com/onnx/optimizer) and [onnxsim](https://github.com/daquexian/onnx-simplifier) by several tens of percent. In particular, models containing `Einsum` and `OneHot`. In other words, the goal is to raise the optimization capacity of [onnxsim](https://github.com/daquexian/onnx-simplifier).
 
+```
+pip install -U spo4onnx
+```
+
 ![Kazam_screencast_00060_](https://github.com/PINTO0309/spo4onnx/assets/33194443/2fa84a50-a26c-47c9-99f7-845732adffb8)
 
 1. Temporarily downgrade onnxsim to `0.4.30` to perform my own optimization sequence.
