@@ -1,7 +1,7 @@
 # spo4onnx
 Simple tool for partial optimization of ONNX
 
-Further optimize some models that cannot be optimized with onnx-optimizer and onnxsim by several tens of percent. In particular, models containing `Einsum` and `OneHot`. In other words, the goal is to raise the optimization capacity of onnxsim.
+Further optimize some models that cannot be optimized with [onnx-optimizer](https://github.com/onnx/optimizer) and [onnxsim](https://github.com/daquexian/onnx-simplifier) by several tens of percent. In particular, models containing `Einsum` and `OneHot`. In other words, the goal is to raise the optimization capacity of [onnxsim](https://github.com/daquexian/onnx-simplifier).
 
 ![Kazam_screencast_00060_](https://github.com/PINTO0309/spo4onnx/assets/33194443/2fa84a50-a26c-47c9-99f7-845732adffb8)
 
