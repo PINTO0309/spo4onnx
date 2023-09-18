@@ -48,3 +48,102 @@ INFO: total elapsed time:  4090.1401042938232 ms
 INFO: avg elapsed time per pred:  409.0140104293823 ms
 INFO: output_name.1: output shape: [1, 1, 192, 320] dtype: float32
 ```
+
+## 1. CLI Usage
+```
+spo4onnx -h
+
+spo4onnx \
+[-h] \
+-if INPUT_ONNX_FILE_PATH \
+[-of OUTPUT_ONNX_FILE_PATH] \
+[-ois OVERWRITE_INPUT_SHAPE [OVERWRITE_INPUT_SHAPE ...]] \
+[-ot OPTIMIZATION_TIMES] \
+[-tov TARGET_ONNXSIM_VERSION]
+[-n]
+
+options:
+  -h, --help
+    show this help message and exit
+
+  -if INPUT_ONNX_FILE_PATH, --input_onnx_file_path INPUT_ONNX_FILE_PATH
+    Input onnx file path.
+
+  -of OUTPUT_ONNX_FILE_PATH, --output_onnx_file_path OUTPUT_ONNX_FILE_PATH
+    Output onnx file path. If not specified,
+    it will overwrite the onnx specified in --input_onnx_file_path.
+
+  -ois OVERWRITE_INPUT_SHAPE [OVERWRITE_INPUT_SHAPE ...], \
+    --overwrite_input_shape OVERWRITE_INPUT_SHAPE [OVERWRITE_INPUT_SHAPE ...]
+    Overwrite the input shape.
+    The format is "input_1:dim0,...,dimN" "input_2:dim0,...,dimN" "input_3:dim0,...,dimN"
+    When there is only one input, for example, "data:1,3,224,224"
+    When there are multiple inputs, for example, "data1:1,3,224,224" "data2:1,3,112,112" "data3:5"
+    A value of 1 or more must be specified.
+    Numerical values other than dynamic dimensions are ignored.
+
+  -ot OPTIMIZATION_TIMES, --optimization_times OPTIMIZATION_TIMES
+    Number of times the optimization process is performed.
+    If zero is specified, the tool automatically calculates the number of optimization times.
+    Default: 0
+
+  -tov TARGET_ONNXSIM_VERSION, --target_onnxsim_version TARGET_ONNXSIM_VERSION
+    Version number of the onnxsim used for optimization.
+    Default: 0.4.30
+
+  -n, --non_verbose
+    Do not show all information logs. Only error logs are displayed.
+```
+
+## 2. In-script Usage
+```python
+$ python
+>>> from spo4onnx import partial_optimization
+>>> help(partial_optimization)
+
+Help on function partial_optimization in module spo4onnx.onnx_partial_optimization:
+
+partial_optimization(
+    input_onnx_file_path: Optional[str] = '',
+    onnx_graph: Optional[onnx.onnx_ml_pb2.ModelProto] = None,
+    output_onnx_file_path: Optional[str] = '',
+    overwrite_input_shape: Optional[Dict] = None,
+    optimization_times: Optional[int] = 0,
+    target_onnxsim_version: Optional[str] = '0.4.30',
+    non_verbose: Optional[bool] = False,
+) -> onnx.onnx_ml_pb2.ModelProto
+
+    Parameters
+    ----------
+    input_onnx_file_path: Optional[str]
+        Input onnx file path.
+        Either input_onnx_file_path or onnx_graph must be specified.
+        Default: ''
+
+    onnx_graph: Optional[onnx.ModelProto]
+        onnx.ModelProto.
+        Either input_onnx_file_path or onnx_graph must be specified.
+        onnx_graph If specified, ignore input_onnx_file_path and process onnx_graph.
+
+    output_onnx_file_path: Optional[str]
+        Output onnx file path.
+        If not specified, it will overwrite the onnx specified in --input_onnx_file_path.
+
+    overwrite_input_shape: Optional[Dict]
+        Overwrite the input shape.
+        The format is
+        {'data1': [1, 3, 224, 224], 'data2': [1, 224], 'data3': [1]}
+
+    optimization_times: Optional[int]
+        Number of times the optimization process is performed.
+        If zero is specified, the tool automatically calculates the number of optimization times.
+        Default: 0
+
+    non_verbose: Optional[bool]
+        Do not show all information logs. Only error logs are displayed.
+
+    Returns
+    -------
+    onnx_graph: onnx.ModelProto
+        Optimized onnx ModelProto
+```
