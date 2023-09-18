@@ -7,6 +7,7 @@ Further optimize some models that cannot be optimized with [onnx-optimizer](http
 pip install -U spo4onnx \
 && pip install -U onnx \
 && pip install -U onnxruntime \
+&& pip install onnxsim \
 && python3 -m pip install -U onnx_graphsurgeon --index-url https://pypi.ngc.nvidia.com \
 ```
 
