@@ -12,7 +12,7 @@ pip install -U spo4onnx \
 && pip install -U onnx \
 && pip install -U onnxruntime \
 && pip install onnxsim \
-&& python3 -m pip install -U onnx_graphsurgeon --index-url https://pypi.ngc.nvidia.com \
+&& python3 -m pip install -U onnx_graphsurgeon --index-url https://pypi.ngc.nvidia.com
 ```
 
 ![Kazam_screencast_00060_](https://github.com/PINTO0309/spo4onnx/assets/33194443/2fa84a50-a26c-47c9-99f7-845732adffb8)
