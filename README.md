@@ -3,6 +3,10 @@ Simple tool for partial optimization of ONNX.
 
 Further optimize some models that cannot be optimized with [onnx-optimizer](https://github.com/onnx/optimizer) and [onnxsim](https://github.com/daquexian/onnx-simplifier) by several tens of percent. In particular, models containing `Einsum` and `OneHot`. In other words, the goal is to raise the optimization capacity of [onnxsim](https://github.com/daquexian/onnx-simplifier).
 
+https://github.com/PINTO0309/simple-onnx-processing-tools
+
+[![Downloads](https://static.pepy.tech/personalized-badge/spo4onnx?period=total&units=none&left_color=grey&right_color=brightgreen&left_text=Downloads)](https://pepy.tech/project/spo4onnx) ![GitHub](https://img.shields.io/github/license/PINTO0309/spo4onnx?color=2BAF2B) [![PyPI](https://img.shields.io/pypi/v/spo4onnx?color=2BAF2B)](https://pypi.org/project/spo4onnx/) [![CodeQL](https://github.com/PINTO0309/spo4onnx/workflows/CodeQL/badge.svg)](https://github.com/PINTO0309/spo4onnx/actions?query=workflow%3ACodeQL)
+
 ```
 pip install -U spo4onnx \
 && pip install -U onnx \
