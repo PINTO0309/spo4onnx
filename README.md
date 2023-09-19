@@ -1,7 +1,7 @@
 # spo4onnx
 Simple tool for partial optimization of ONNX.
 
-Further optimize some models that cannot be optimized with [onnx-optimizer](https://github.com/onnx/optimizer) and [onnxsim](https://github.com/daquexian/onnx-simplifier) by several tens of percent. In particular, models containing `Einsum` and `OneHot`. In other words, the goal is to raise the optimization capacity of [onnxsim](https://github.com/daquexian/onnx-simplifier). **In the first place, the "optimization" as it is commonly called can be easily performed, since Einsum itself is all separated into MatMul if the model is built using the [opt-einsum](https://github.com/dgasmith/opt_einsum) package. What this tool aims to do, however, is to optimize ONNX without generating many MatMul, leaving `Einsum` as it is.** The only benefit you get with spo4onnx is that you can rejoice that you are a geek.
+Further optimize some models that cannot be optimized with [onnx-optimizer](https://github.com/onnx/optimizer) and [onnxsim](https://github.com/daquexian/onnx-simplifier) by several tens of percent. In particular, models containing `Einsum` and `OneHot`. In other words, the goal is to raise the optimization capacity of [onnxsim](https://github.com/daquexian/onnx-simplifier). **In the first place, the "optimization" as it is commonly called can be easily performed, since `Einsum` itself is all separated into MatMul if the model is built using the [opt-einsum](https://github.com/dgasmith/opt_einsum) package. What this tool aims to do, however, is to optimize ONNX without generating many MatMul, leaving `Einsum` as it is.** The only benefit you get with spo4onnx is that you can rejoice that you are a geek.
 
 https://github.com/PINTO0309/simple-onnx-processing-tools
 
