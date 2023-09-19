@@ -175,3 +175,4 @@ partial_optimization(
 ## 3. Acknowledgments
 1. https://github.com/daquexian/onnx-simplifier
 2. https://github.com/onnx/optimizer
+3. https://github.com/dgasmith/opt_einsum
