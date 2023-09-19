@@ -397,13 +397,11 @@ def partial_optimization(
                 and sum([1 if isinstance(s, int) and s < 1 else 0 for s in graph_output.shape]) > 0:
                 graph_output.shape = None
                 output_clear = True
-        if output_clear:
-            onnx_graph_opt = onnx.shape_inference.infer_shapes(gs.export_onnx(gs_graph, do_type_check=False))
-            if input_onnx_file_path:
-                onnx.save(onnx_graph_opt, f=input_onnx_file_path)
-        else:
-            onnx_graph_opt = onnx_graph
-    except:
+        onnx_graph_opt = onnx.shape_inference.infer_shapes(gs.export_onnx(gs_graph, do_type_check=False))
+        gs_graph = gs.import_onnx(onnx_graph_opt)
+        if input_onnx_file_path and output_clear:
+            onnx.save(onnx_graph_opt, f=input_onnx_file_path)
+    except Exception as ex:
         onnx_graph_opt = onnx_graph
 
     # Force installation of onnxsim==0.4.30
