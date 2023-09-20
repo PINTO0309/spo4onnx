@@ -525,18 +525,18 @@ def partial_optimization(
         print_simplifying_info(onnx_graph, onnx_graph_opt)
 
     if output_onnx_file_path:
-        onnx.save(proto=onnx_graph, f=output_onnx_file_path)
+        onnx.save(proto=onnx_graph_opt, f=output_onnx_file_path)
         if not non_verbose:
             print(f'{Color.GREEN}INFO:{Color.RESET} Save onnx to: {output_onnx_file_path}')
     elif input_onnx_file_path:
-        onnx.save(proto=onnx_graph, f=input_onnx_file_path)
+        onnx.save(proto=onnx_graph_opt, f=input_onnx_file_path)
         if not non_verbose:
             print(f'{Color.GREEN}INFO:{Color.RESET} Save onnx to: {input_onnx_file_path}')
 
     if not non_verbose:
         print(f'{Color.GREEN}INFO:{Color.RESET} Finish!')
 
-    return onnx_graph
+    return onnx_graph_opt
 
 
 def main():
