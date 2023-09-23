@@ -266,7 +266,7 @@ def print_simplifying_info(model_ori: onnx.ModelProto, model_opt: onnx.ModelProt
     table.add_row('----------------------', '----------------', '----------------')
     ori_ops_count = sum([ori_info.op_nums[key] for key in ori_info.op_nums.keys()])
     opt_ops_count = sum([opt_info.op_nums[key] for key in opt_info.op_nums.keys()])
-    table.add_row('Total number of OPs', f"{ori_ops_count:,}", f"{opt_ops_count:,}")
+    add_row(table, 'Total number of OPs', f"{ori_ops_count:,}", f"{opt_ops_count:,}", lambda opt, ori: opt < ori)
     table.add_row('======================', '================', '================')
     add_row(table, 'Model Size', ori_info.model_size, opt_info.model_size, lambda opt, ori: opt < ori, postprocess=human_readable_size)
     rich_print(table)
