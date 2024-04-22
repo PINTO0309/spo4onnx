@@ -6,6 +6,7 @@ import copy
 import math
 import tqdm
 import onnx
+from onnx.serialization import ProtoSerializer
 import onnxruntime as ort
 import onnx_graphsurgeon as gs
 import numpy as np
@@ -108,6 +109,7 @@ def dummy_onnx_inference(
     *,
     onnx_graph: onnx.ModelProto,
     output_names: List[str],
+    **kwargs,
 ) -> List[np.ndarray]:
     """Perform inference on ONNX subgraphs with an all-1 dummy tensor.
 
@@ -177,11 +179,12 @@ def dummy_onnx_inference(
                 if node_output.dtype is not None:
                     gs_graph.outputs.append(node_output)
 
-    new_onnx_graph = gs.export_onnx(graph=gs_graph, do_type_check=False)
+    new_onnx_graph = gs.export_onnx(graph=gs_graph, do_type_check=False, **kwargs)
     tmp_onnx_path = ''
     tmp_onnx_external_weights_path =''
     try:
-        serialized_graph = onnx._serialize(new_onnx_graph)
+        serializer: ProtoSerializer = onnx._get_serializer(fmt='protobuf')
+        serialized_graph = serializer.serialize_proto(proto=new_onnx_graph)
     except ValueError as ve:
         tmp_onnx_path = 'tmp.onnx'
         tmp_onnx_external_weights_path ='tmp_external.weights'
@@ -366,6 +369,10 @@ def partial_optimization(
     if not onnx_graph:
         onnx_graph = onnx.load(input_onnx_file_path)
 
+    # domain, ir_version
+    domain: str = onnx_graph.domain
+    ir_version: int = onnx_graph.ir_version
+
     # import
     gs_graph = gs.import_onnx(onnx_graph)
 
@@ -397,7 +404,7 @@ def partial_optimization(
                 and sum([1 if isinstance(s, int) and s < 1 else 0 for s in graph_output.shape]) > 0:
                 graph_output.shape = None
                 output_clear = True
-        onnx_graph_opt = onnx.shape_inference.infer_shapes(gs.export_onnx(gs_graph, do_type_check=False))
+        onnx_graph_opt = onnx.shape_inference.infer_shapes(gs.export_onnx(gs_graph, do_type_check=False, **{'domain': domain, 'ir_version': ir_version}))
         gs_graph = gs.import_onnx(onnx_graph_opt)
         if input_onnx_file_path and output_clear:
             onnx.save(onnx_graph_opt, f=input_onnx_file_path)
@@ -460,6 +467,7 @@ def partial_optimization(
                 dummy_onnx_inference(
                     onnx_graph=onnx_graph_opt,
                     output_names=full_ops_output_names,
+                    **{'domain': domain, 'ir_version': ir_version},
                 )
             """
             onnx_tensor_infos_for_validation:
@@ -505,7 +513,7 @@ def partial_optimization(
                         onnx_output_shape = list(onnx_tensor_infos_for_validation[correction_op_output.name].shape)
                         correction_op_output.shape = onnx_output_shape
                 try:
-                    model_simp = gs.export_onnx(gs_graph)
+                    model_simp = gs.export_onnx(gs_graph, do_type_check=False, **{'domain': domain, 'ir_version': ir_version})
                     model_simp, check = simplify(
                         model=model_simp,
                         overwrite_input_shapes=overwrite_input_shape,
