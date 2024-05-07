@@ -127,6 +127,9 @@ def dummy_onnx_inference(
         Results of inference using dummy tensor
     """
     # Separate onnx at specified output_names position
+    metadata_props = None
+    if hasattr(onnx_graph, 'metadata_props'):
+        metadata_props = onnx_graph.metadata_props
     gs_graph = gs.import_onnx(onnx_graph)
 
     # reduce all axes except batch axis
@@ -180,6 +183,8 @@ def dummy_onnx_inference(
                     gs_graph.outputs.append(node_output)
 
     new_onnx_graph = gs.export_onnx(graph=gs_graph, do_type_check=False, **kwargs)
+    if metadata_props is not None:
+        new_onnx_graph.metadata_props.extend(metadata_props)
     tmp_onnx_path = ''
     tmp_onnx_external_weights_path =''
     try:
@@ -372,6 +377,10 @@ def partial_optimization(
     # domain, ir_version
     domain: str = onnx_graph.domain
     ir_version: int = onnx_graph.ir_version
+    meta_data = {'domain': domain, 'ir_version': ir_version}
+    metadata_props = None
+    if hasattr(onnx_graph, 'metadata_props'):
+        metadata_props = onnx_graph.metadata_props
 
     # import
     gs_graph = gs.import_onnx(onnx_graph)
@@ -404,7 +413,10 @@ def partial_optimization(
                 and sum([1 if isinstance(s, int) and s < 1 else 0 for s in graph_output.shape]) > 0:
                 graph_output.shape = None
                 output_clear = True
-        onnx_graph_opt = onnx.shape_inference.infer_shapes(gs.export_onnx(gs_graph, do_type_check=False, **{'domain': domain, 'ir_version': ir_version}))
+        exported_onnx_graph = gs.export_onnx(gs_graph, do_type_check=False, **meta_data)
+        if metadata_props is not None:
+            exported_onnx_graph.metadata_props.extend(metadata_props)
+        onnx_graph_opt = onnx.shape_inference.infer_shapes(exported_onnx_graph)
         gs_graph = gs.import_onnx(onnx_graph_opt)
         if input_onnx_file_path and output_clear:
             onnx.save(onnx_graph_opt, f=input_onnx_file_path)
@@ -513,7 +525,9 @@ def partial_optimization(
                         onnx_output_shape = list(onnx_tensor_infos_for_validation[correction_op_output.name].shape)
                         correction_op_output.shape = onnx_output_shape
                 try:
-                    model_simp = gs.export_onnx(gs_graph, do_type_check=False, **{'domain': domain, 'ir_version': ir_version})
+                    model_simp = gs.export_onnx(gs_graph, do_type_check=False, **meta_data)
+                    if metadata_props is not None:
+                        model_simp.metadata_props.extend(metadata_props)
                     model_simp, check = simplify(
                         model=model_simp,
                         overwrite_input_shapes=overwrite_input_shape,
